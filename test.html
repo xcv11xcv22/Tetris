@@ -1,0 +1,74 @@
+<html>
+    <style>
+        .box {
+  width: 30px;
+  height: 30px;
+  background-image: linear-gradient(180deg, #fff, #ddd 40%, #ccc);
+}
+.box2 {
+  width: 30px;
+  height: 30px;
+  background-image: linear-gradient(180deg, rgb(28, 39, 97), rgb(179, 38, 38) 40%, rgb(82, 24, 24));
+}
+    </style>
+<script src="jquery.js"></script>
+<script src="test.js?123"></script>
+<script>
+    
+    var timer = undefined;
+$(document).ready(function(){
+    const SPEED_H = 200;
+    const SPEED_L = 500;
+    _context = new Context();
+    _Terist = new terist();
+    _idle = new Idle(_context, $.proxy(_Terist.reborn, _Terist));
+    _down = new Down(_context, $.proxy(_Terist.down, _Terist), _idle);
+    _right = new Right(_context, $.proxy(_Terist.right, _Terist), _idle);
+    _left = new Left(_context, $.proxy(_Terist.left, _Terist), _idle);
+    _rotate = new Rotate(_context, $.proxy(_Terist.rotate, _Terist), _idle);
+    fnRight = $.proxy(_right.action, _right);
+    fnLeft = $.proxy(_left.action, _left);
+    fnRotate = $.proxy(_rotate.action, _rotate);
+
+    document.onkeydown = keyDown;
+    //在Document对象中注册keyDown事件处理函数
+    function keyDown(event){  // 方向键控制元素移动函数
+        var event = event || window.event;  // 标准化事件对象
+        event.preventDefault();
+        switch(event.keyCode){  // 获取当前按下键盘键的编码
+            case 37 :  // 按下左箭头键，向左移动5个像素
+                fnLeft();
+                break;
+            case 39 :  // 按下右箭头键，向右移动5个像素
+                fnRight();
+                break;
+            case 32 : 
+                fnRotate();
+                break;
+            case 40 :
+                if (speed == SPEED_H)
+                    return;
+                speed = SPEED_H;
+                clearInterval(timer);
+                timer = setInterval($.proxy(_down.action, _down), 100)
+                break;
+        }
+    };
+    document.onkeyup = function(event){
+        var event = event || window.event; 
+        switch(event.keyCode){
+            case 40:
+                speed = SPEED_L;
+                clearInterval(timer);
+                timer = setInterval($.proxy(_down.action, _down), 300)
+                break;
+        }
+    };
+    timer = setInterval($.proxy(_down.action, _down), 100);
+  
+    
+});   
+</script>
+<div id="t">1</div>
+    
+</html>
