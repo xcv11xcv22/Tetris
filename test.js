@@ -194,8 +194,8 @@ class terist{
     }
     reborn(){
         this.checkDelete();
-        a = 1;
-        this.shapeIdx = getRandom(0, this.shapes.length);
+       
+        this.shapeIdx = getRandom(0, this.shapes.length-1);
         this.rotateIdx = 0;
         let tmp = this.originShapes[this.shapeIdx];
         for(let i=0; i< 4; i++){
@@ -204,7 +204,9 @@ class terist{
             let idx = y*10+x;
             this.backGDCube[y][x].used = true;
             $('#cube'+idx).attr('class', 'box2');
+            
             this.cubes[i].setPos(i+1, 4+tmp[i][0], -4+tmp[i][1]);
+            
         }
     }
     checkDelete(){
@@ -241,6 +243,7 @@ class terist{
                 }
                 break;
             case TERST_ROTATE:
+
                 let tmpX = 0;
                 let tmpY = 0;
                 for(let i= 0;i < this.cubes.length; i++){
@@ -251,14 +254,15 @@ class terist{
                         this.cubes[i].x;
                     let newY = this.shapes[this.shapeIdx][idx][i][1] + 
                         this.cubes[i].y;
-                    if (this.backGDCube[newY][newX].used)
+                    if ((newY < 0 || newY > this.backGDCube.length) ||
+                        this.backGDCube[newY][newX].used)
                         return false;
                     else if (newX > 9)
-                        tmpX = Math.max(newX, tmpX)  
+                        tmpX = Math.max(newX, tmpX);  
                     else if(newX < 0)
-                        tmpX = Math.min(newX, tmpX)  
+                        tmpX = Math.min(newX, tmpX);  
                     else if (newY > 19)
-                        tmpY = Math.max(newY, tmpY)
+                        tmpY = Math.max(newY, tmpY);
                 }
                 this.modifyY = tmpY > 19 ? 19-tmpY: tmpY;
                 this.modifyX = tmpX > 9 ? 9-tmpX : 0-tmpX; 

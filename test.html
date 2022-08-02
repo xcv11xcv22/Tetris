@@ -31,15 +31,15 @@ $(document).ready(function(){
     fnRotate = $.proxy(_rotate.action, _rotate);
 
     document.onkeydown = keyDown;
-    //在Document对象中注册keyDown事件处理函数
+   
     function keyDown(event){  // 方向键控制元素移动函数
         var event = event || window.event;  // 标准化事件对象
         event.preventDefault();
         switch(event.keyCode){  // 获取当前按下键盘键的编码
-            case 37 :  // 按下左箭头键，向左移动5个像素
+            case 37 :  // 按下左箭头键
                 fnLeft();
                 break;
-            case 39 :  // 按下右箭头键，向右移动5个像素
+            case 39 :  // 按下右箭头键
                 fnRight();
                 break;
             case 32 : 
